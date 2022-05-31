@@ -3,7 +3,7 @@ import { Box, Text, Link, Center, Heading, VStack } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <Box h="90vh">
+    <>
       <Head>
         <title>posture.so</title>
         <meta property="og:image" content="https://posture.so/posture.png" />
@@ -13,8 +13,7 @@ export default function Home() {
           content="posture.so is a web-app giving you not-so-friendly reminders about your posture."
         />
       </Head>
-
-      <Center h="full">
+      <Center h="90vh">
         <VStack spacing={2}>
           <Heading fontSize="6xl">posture.so</Heading>
           <Text w="96" pb={4} textAlign="center">
@@ -37,11 +36,10 @@ export default function Home() {
           </Box>
         </VStack>
       </Center>
-
       <Text textAlign="center">
         made with bad posture by{" "}
         <Link href="https://twitter.com/aleemrehmtulla">@aleemrehmtulla</Link>
       </Text>
-    </Box>
+    </>
   );
 }

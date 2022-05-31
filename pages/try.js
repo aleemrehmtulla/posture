@@ -155,7 +155,7 @@ export default function Home() {
     }
   }, [cameraGood]);
   return (
-    <Center h="90vh">
+    <Center h="90vh" pt={{ base: 12, md: 0 }} mx={{ base: 8, md: 0 }}>
       <Box>
         <Box rounded="lg" display={cameraGood ? "block" : "none"}>
           <Box rounded="lg" as="video" playsinlinec autoPlay></Box>
@@ -166,8 +166,8 @@ export default function Home() {
         <Center
           display={cameraGood ? "none" : "flex"}
           rounded="lg"
-          h={"30rem"}
-          w={"37rem"}
+          h={{ base: "20rem", md: "30rem" }}
+          w={{ base: "19rem", md: "37rem" }}
           bg="gray.300"
         >
           <VStack spacing={2}>
@@ -179,7 +179,7 @@ export default function Home() {
           {isShoe ? (
             <Box
               py={2}
-              px={14}
+              px={{ base: 6, md: 16 }}
               rounded="full"
               _hover={{ bg: "gray.900" }}
               onClick={() => {
@@ -188,14 +188,18 @@ export default function Home() {
               cursor="pointer"
               bg="black"
             >
-              <Text textAlign="center" textColor="white" fontSize="3xl">
+              <Text
+                textAlign="center"
+                textColor="white"
+                fontSize={{ base: "xl", md: "3xl" }}
+              >
                 {isShoe}
               </Text>
             </Box>
           ) : (
             <Box
               py={2}
-              px={14}
+              px={{ base: 6, md: 16 }}
               rounded="full"
               _hover={{ bg: "gray.900" }}
               onClick={() => {
@@ -204,7 +208,11 @@ export default function Home() {
               cursor="pointer"
               bg="black"
             >
-              <Text textAlign="center" textColor="white" fontSize="3xl">
+              <Text
+                textAlign="center"
+                textColor="white"
+                fontSize={{ base: "xl", md: "3xl" }}
+              >
                 model loading...
               </Text>
             </Box>
