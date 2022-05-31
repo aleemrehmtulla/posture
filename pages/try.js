@@ -1,52 +1,12 @@
-import {
-  Box,
-  Flex,
-  Text,
-  Button,
-  Link,
-  Center,
-  Heading,
-  VStack,
-  HStack,
-  Td,
-  Tr,
-  Table,
-  TableBody,
-  Avatar,
-  Tbody,
-  Spacer,
-  Thead,
-  Th,
-  Tag,
-  Spinner,
-} from "@chakra-ui/react";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { debounce } from "lodash";
-// import * as tf from "@tensorflow/tfjs";
+import { useEffect, useState } from "react";
 
-import Script from "next/script";
-import Head from "next/head";
-import * as tf from "@tensorflow/tfjs";
+import { Box, Text, Center, VStack, Spinner } from "@chakra-ui/react";
 import * as tmPose from "@teachablemachine/pose";
-import { useState } from "react";
-
-const userData = [
-  {
-    user: "John Doe",
-    avg: "3.5",
-    isSlouching: true,
-  },
-  {
-    user: "Jane Doe",
-    avg: "3.5",
-    isSlouching: false,
-  },
-];
 
 export default function Home() {
   const URL = "https://teachablemachine.withgoogle.com/models/C1GInu1hD/";
-  let webcam, ctx, labelContainer, maxPredictions;
+  let maxPredictions;
 
   const router = useRouter();
   const [model, setModel] = useState(null);
@@ -64,13 +24,9 @@ export default function Home() {
 
     const ctx = webcamm.getContext("2d").getImageData(0, 0, 640, 480);
 
-    // console.log(ctx);
-
-    const { pose, posenetOutput } = await model.estimatePose(ctx, true);
+    const { posenetOutput } = await model.estimatePose(ctx, true);
 
     const prediction = await model.predict(posenetOutput);
-    // console.log("CLASS 1: " + prediction[0].probability);
-    // console.log("CLASS 2: " + prediction[1].probability);
 
     if (prediction[0].probability > prediction[1].probability) {
       setMessage(false);
@@ -96,8 +52,6 @@ export default function Home() {
 
     canvas.width = 480;
     canvas.height = 360;
-
-    const button = document.querySelector("button");
 
     const constraints = {
       audio: false,

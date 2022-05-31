@@ -13,10 +13,10 @@ export default function Home() {
           content="posture.so is a web-app giving you not-so-friendly reminders about your posture."
         />
       </Head>
-      <Center h="90vh">
+      <Center px={8} h="90vh">
         <VStack spacing={2}>
           <Heading fontSize="6xl">posture.so</Heading>
-          <Text w="96" pb={4} textAlign="center">
+          <Text w={{ base: 80, md: 96 }} pb={4} textAlign="center">
             A web-app giving you not-so-friendly reminders about your posture.
           </Text>
           <Box
@@ -36,7 +36,7 @@ export default function Home() {
           </Box>
         </VStack>
       </Center>
-      <Text textAlign="center">
+      <Text px={2} textAlign="center">
         made with bad posture by{" "}
         <Link href="https://twitter.com/aleemrehmtulla">@aleemrehmtulla</Link>
       </Text>
