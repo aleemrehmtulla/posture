@@ -86,7 +86,7 @@ export default function Home() {
     <Center h="90vh" pt={{ base: 12, md: 0 }} mx={{ base: 8, md: 0 }}>
       <Box>
         <Box rounded="lg" display={cameraGood ? "block" : "none"}>
-          <Box rounded="lg" as="video" playsinlinec autoPlay></Box>
+          <Box rounded="lg" as="video" playsInline autoPlay></Box>
           <Box display="none">
             <canvas id="hiddenCanvas"></canvas>
           </Box>
