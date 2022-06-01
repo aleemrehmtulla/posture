@@ -19,10 +19,11 @@ export default function Home() {
 
     const prediction = await model.predict(posenetOutput);
 
-    if (prediction[0].probability < 1) {
-      setMessage(true);
-    } else {
+    if (prediction[0].probability > prediction[1].probability) {
       setMessage(false);
+    }
+    if (prediction[1].probability > prediction[0].probability) {
+      setMessage(true);
     }
 
     startPose();
