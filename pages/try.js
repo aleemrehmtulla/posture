@@ -1,50 +1,38 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { Box, Text, Center, VStack, Spinner } from "@chakra-ui/react";
 import * as tmPose from "@teachablemachine/pose";
 
 export default function Home() {
-  const URL = "https://teachablemachine.withgoogle.com/models/C1GInu1hD/";
-  let maxPredictions;
-
-  const router = useRouter();
   const [model, setModel] = useState(null);
-  const [modelURL, setModelURL] = useState(null);
-  const [modaldataURL, setModalDataURL] = useState(null);
-  const [isShoe, setIsShoe] = useState(null);
+  const [postureMessage, setPostureMessage] = useState(null);
   const [cameraGood, setCameraGood] = useState(false);
 
   const startPose = async () => {
     getCanvas();
 
-    maxPredictions = model.getTotalClasses();
+    const camera = document.getElementById("hiddenCanvas");
 
-    const webcamm = document.getElementById("wow");
-
-    const ctx = webcamm.getContext("2d").getImageData(0, 0, 640, 480);
+    const ctx = camera.getContext("2d").getImageData(0, 0, 640, 480);
 
     const { posenetOutput } = await model.estimatePose(ctx, true);
 
     const prediction = await model.predict(posenetOutput);
 
-    if (prediction[0].probability > prediction[1].probability) {
-      setMessage(false);
-    }
-    if (prediction[1].probability > prediction[0].probability) {
+    if (prediction[0].probability < 1) {
       setMessage(true);
+    } else {
+      setMessage(false);
     }
 
     startPose();
   };
 
   const startWebcam = async () => {
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
+    const modelURL = "model/model.json";
+    const metadataURL = "model/metadata.json";
     const model = await tmPose.load(modelURL, metadataURL);
 
-    setModelURL(modelURL);
-    setModalDataURL(metadataURL);
     setModel(model);
 
     const video = document.querySelector("video");
@@ -53,30 +41,15 @@ export default function Home() {
     canvas.width = 480;
     canvas.height = 360;
 
-    const constraints = {
-      audio: false,
-      video: true,
-    };
-
     function handleSuccess(stream) {
-      window.stream = stream; // make stream available to browser console
+      window.stream = stream;
       video.srcObject = stream;
-      console.log("live!");
       setCameraGood(true);
     }
 
-    function handleError(error) {
-      console.log(
-        "navigator.MediaDevices.getUserMedia error: ",
-        error.message,
-        error.name
-      );
-    }
-
     navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then(handleSuccess)
-      .catch(handleError);
+      .getUserMedia({ audio: false, video: true })
+      .then(handleSuccess);
   };
 
   const getCanvas = () => {
@@ -93,10 +66,10 @@ export default function Home() {
 
   const setMessage = (isSlouching) => {
     if (isSlouching === true) {
-      setIsShoe("🚨 Sit up straight homie");
+      setPostureMessage("🚨 CMON NOW. SITUP STRAIGHT 🚨");
     }
     if (isSlouching === false) {
-      setIsShoe("✅ Great posture buddy :)");
+      setPostureMessage("✅ dope stuff! posture is A-OK ✅");
     }
   };
 
@@ -114,7 +87,7 @@ export default function Home() {
         <Box rounded="lg" display={cameraGood ? "block" : "none"}>
           <Box rounded="lg" as="video" playsinlinec autoPlay></Box>
           <Box display="none">
-            <canvas id="wow"></canvas>
+            <canvas id="hiddenCanvas"></canvas>
           </Box>
         </Box>
         <Center
@@ -126,11 +99,11 @@ export default function Home() {
         >
           <VStack spacing={2}>
             <Spinner size="xl" />
-            <Text>Enable Camera Permissons...</Text>
+            <Text>Enable Camera Permissions...</Text>
           </VStack>
         </Center>
         <Box pt={4} rounded="md">
-          {isShoe ? (
+          {postureMessage ? (
             <Box
               py={2}
               px={{ base: 6, md: 16 }}
@@ -147,7 +120,7 @@ export default function Home() {
                 textColor="white"
                 fontSize={{ base: "xl", md: "3xl" }}
               >
-                {isShoe}
+                {postureMessage}
               </Text>
             </Box>
           ) : (
